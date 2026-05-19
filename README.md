@@ -1,2 +1,2 @@
 # Full-Stack-Quiz-Application
-nteractive Quiz Management System
+interactive Quiz Management System
