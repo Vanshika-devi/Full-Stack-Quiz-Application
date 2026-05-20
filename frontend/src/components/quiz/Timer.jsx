@@ -18,15 +18,15 @@ function Timer({
     }
 
     const timer =
-    setInterval(()=>{
+      setTimeout(()=>{
 
-      setTimeLeft(
-        prev => prev - 1
-      );
+        setTimeLeft(
+          prev => prev - 1
+        );
 
-    },1000);
+      },1000);
 
-    return ()=>clearInterval(timer);
+    return ()=> clearTimeout(timer);
 
   },[
     timeLeft,
@@ -34,13 +34,26 @@ function Timer({
     onTimeUp
   ]);
 
+  const minutes =
+    Math.floor(timeLeft / 60);
+
+  const seconds =
+    timeLeft % 60;
+
   return (
 
-    <div className="timer-circle">
+    <div className="timer-box">
 
-      <span>
-        {timeLeft}s
-      </span>
+      ⏳
+      {" "}
+
+      {String(minutes)
+        .padStart(2,"0")}
+
+      :
+
+      {String(seconds)
+        .padStart(2,"0")}
 
     </div>
 

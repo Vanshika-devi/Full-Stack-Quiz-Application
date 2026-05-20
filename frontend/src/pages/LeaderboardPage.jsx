@@ -1,48 +1,30 @@
-import {
-  useEffect,
-  useState
-} from "react";
-
-import {
-  getLeaderboard
-} from "../services/quizService";
+import { useState } from "react";
 
 function LeaderboardPage() {
 
+  const savedScores =
+    JSON.parse(
+      localStorage.getItem(
+        "leaderboard"
+      )
+    ) || [];
+
+  /* SORT SCORES */
+
+  savedScores.sort(
+    (a,b)=> b.score - a.score
+  );
+
   const [
-    leaderboard,
-    setLeaderboard
-  ] = useState([]);
-
-  useEffect(()=>{
-
-    const fetchLeaderboard =
-    async ()=>{
-
-      try{
-
-        const data =
-          await getLeaderboard();
-
-        setLeaderboard(data);
-
-      }catch(error){
-
-        console.log(error);
-
-      }
-
-    };
-
-    fetchLeaderboard();
-
-  },[]);
+    leaderboard
+  ] = useState(savedScores);
 
   return (
 
     <div className="leaderboard-page">
 
       {/* HEADER */}
+
       <div className="leaderboard-header">
 
         <p className="leaderboard-label">
@@ -62,8 +44,9 @@ function LeaderboardPage() {
 
       </div>
 
-      {/* EMPTY STATE */}
-      {leaderboard.length===0 && (
+      {/* EMPTY */}
+
+      {leaderboard.length === 0 && (
 
         <div className="leaderboard-empty">
 
@@ -87,7 +70,8 @@ function LeaderboardPage() {
       )}
 
       {/* TABLE */}
-      {leaderboard.length>0 && (
+
+      {leaderboard.length > 0 && (
 
         <div className="leaderboard-card">
 
@@ -105,6 +89,8 @@ function LeaderboardPage() {
 
                 <th>Score</th>
 
+                <th>Date</th>
+
               </tr>
 
             </thead>
@@ -114,51 +100,50 @@ function LeaderboardPage() {
               {leaderboard.map(
                 (item,index)=>(
 
-                <tr key={item._id}>
+                  <tr key={index}>
 
-                  <td>
+                    <td>
 
-                    <span
-                      className="
-                      rank-badge
-                      "
-                    >
+                      <span className="rank-badge">
 
-                      #{index+1}
+                        #{index + 1}
 
-                    </span>
+                      </span>
 
-                  </td>
+                    </td>
 
-                  <td className="player-name">
+                    <td className="player-name">
 
-                    {item.user?.name}
+                      {item.name}
 
-                  </td>
+                    </td>
 
-                  <td>
+                    <td>
 
-                    <span
-                      className="
-                      category-pill
-                      "
-                    >
+                      <span className="category-pill">
 
-                      {item.category}
+                        {item.category}
 
-                    </span>
+                      </span>
 
-                  </td>
+                    </td>
 
-                  <td className="score-text">
+                    <td className="score-text">
 
-                    {item.score}%
+                      {item.score}%
 
-                  </td>
+                    </td>
 
-                </tr>
+                    <td>
 
-              ))}
+                      {item.date}
+
+                    </td>
+
+                  </tr>
+
+                )
+              )}
 
             </tbody>
 
@@ -171,6 +156,7 @@ function LeaderboardPage() {
     </div>
 
   );
+
 }
 
 export default LeaderboardPage;

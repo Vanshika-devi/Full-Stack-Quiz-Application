@@ -24,15 +24,10 @@ function QuizPage() {
   const navigate =
     useNavigate();
 
-  /* FILTER QUESTIONS */
+  /* GET QUESTIONS */
 
   const quizQuestions =
-    questions.filter(
-      (q)=>
-        q.category?.toLowerCase()
-        ===
-        category?.toLowerCase()
-    );
+    questions[category] || [];
 
   /* STATES */
 
@@ -42,8 +37,8 @@ function QuizPage() {
   ] = useState(0);
 
   const [
-    selectedAnswer,
-    setSelectedAnswer
+    selected,
+    setSelected
   ] = useState("");
 
   const [
@@ -56,24 +51,17 @@ function QuizPage() {
     setTimeLeft
   ] = useState(30);
 
-  /* NO QUESTIONS */
+  /* EMPTY */
 
-  if(quizQuestions.length===0){
+  if(quizQuestions.length === 0){
 
     return (
 
-      <div
-        style={{
-          minHeight:"100vh",
-          display:"flex",
-          justifyContent:"center",
-          alignItems:"center",
-          color:"white",
-          fontSize:"30px"
-        }}
-      >
+      <div className="empty-page">
 
-        No Questions Found
+        <h1>
+          No Questions Found
+        </h1>
 
       </div>
 
@@ -94,10 +82,10 @@ function QuizPage() {
     ){
 
       setCurrentQuestion(
-        currentQuestion + 1
+        prev => prev + 1
       );
 
-      setSelectedAnswer("");
+      setSelected("");
 
       setTimeLeft(30);
 
@@ -120,10 +108,9 @@ function QuizPage() {
 
   /* ANSWER */
 
-  const handleAnswer =
-  (option)=>{
+  const handleAnswer = (option)=>{
 
-    setSelectedAnswer(option);
+    setSelected(option);
 
     if(
       option === question.answer
@@ -147,7 +134,7 @@ function QuizPage() {
 
     <div className="quiz-page">
 
-      <div className="quiz-container">
+      <div className="quiz-wrapper">
 
         {/* TOP */}
 
@@ -161,7 +148,7 @@ function QuizPage() {
 
             </p>
 
-            <h2 className="quiz-count">
+            <h2 className="quiz-counter">
 
               Question
               {" "}
@@ -190,7 +177,7 @@ function QuizPage() {
           total={quizQuestions.length}
         />
 
-        {/* CARD */}
+        {/* QUESTION CARD */}
 
         <div className="quiz-card">
 
@@ -202,32 +189,32 @@ function QuizPage() {
 
           <div className="quiz-options">
 
-            {question.options?.map(
+            {question.options.map(
               (option,index)=>(
 
-              <button
-                key={index}
+                <button
+                  key={index}
 
-                onClick={()=>
-                  handleAnswer(option)
-                }
-
-                className={`
-                  quiz-option
-                  ${
-                    selectedAnswer
-                    === option
-                    ? "selected-option"
-                    : ""
+                  onClick={()=>
+                    handleAnswer(option)
                   }
-                `}
-              >
 
-                {option}
+                  className={`
+                    quiz-option
+                    ${
+                      selected === option
+                      ? "selected-option"
+                      : ""
+                    }
+                  `}
+                >
 
-              </button>
+                  {option}
 
-            ))}
+                </button>
+
+              )
+            )}
 
           </div>
 

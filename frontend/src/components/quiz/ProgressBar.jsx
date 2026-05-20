@@ -3,18 +3,18 @@ function ProgressBar({
   total
 }) {
 
-  const percentage =
+  const progress =
     (current / total) * 100;
 
   return (
 
-    <div className="progress-wrapper">
+    <div className="progress-container">
 
       <div
         className="progress-fill-bar"
 
         style={{
-          width:`${percentage}%`
+          width:`${progress}%`
         }}
       />
 
