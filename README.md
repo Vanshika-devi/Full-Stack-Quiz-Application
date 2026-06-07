@@ -162,6 +162,21 @@ PORT=5000
 MONGO_URI=your_mongodb_connection
 JWT_SECRET=your_secret_key
 ```
+## ⚠️ Important
+
+Make sure MongoDB is running locally before starting the backend server.
+
+Start MongoDB using:
+
+```bash
+mongod
+```
+
+MongoDB runs by default on:
+
+```bash
+mongodb://127.0.0.1:27017
+```
 
 ---
 
