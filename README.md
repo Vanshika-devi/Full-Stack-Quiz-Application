@@ -92,6 +92,7 @@ Built with scalability in mind, QuizMaster AI is designed for future AI-powered 
 - Gemini API
 - Ollama
 - LangChain
+- Recommandation Layer
 
 ---
 
